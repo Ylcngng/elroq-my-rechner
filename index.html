@@ -256,7 +256,54 @@
               </div>
             </div>
 
-
+            {/* Community-Datenbasis */}
+            <div className="card" style={{marginBottom:20}}>
+              <h2 style={{fontSize:16,fontWeight:600,marginBottom:4}}>📊 Community-Datenbasis</h2>
+              <p style={{fontSize:12,color:"var(--text-dim)",marginBottom:16}}>Reale Erfahrungswerte aus {DATA_POINTS.length} Fällen – Grundlage der Durchschnittswerte</p>
+              <div style={{overflowX:"auto"}}>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>User</th>
+                      <th className="hide-m">Modell</th>
+                      <th className="hide-m">Produziert</th>
+                      <th title="Produktion → Händler (Tage)">P→H</th>
+                      <th title="Händler → Übergabe (Tage)">H→Ü</th>
+                      <th title="Produktion → Übergabe (Tage)">P→Ü</th>
+                      <th>MY</th>
+                      <th className="hide-m">Notiz</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {DATA_POINTS.map(d => {
+                      const myBadge = d.produziert ? getMyBadge(d.produziert) : null;
+                      return (
+                        <tr key={d.id}>
+                          <td>
+                            <div style={{fontSize:12,color:"#c9d1d9"}}>{d.user}</div>
+                            <div style={{fontSize:11,color:"var(--text-dim)"}}>{d.quelle}</div>
+                          </td>
+                          <td className="hide-m" style={{fontSize:12,color:"#c9d1d9"}}>{d.modell}</td>
+                          <td className="hide-m">
+                            <div className="mono" style={{color:"var(--green)",fontSize:12}}>{formatDE(d.produziert)}</div>
+                            {d.produziert && <div style={{fontSize:11,color:"var(--text-dim)"}}>KW {getKW(d.produziert)}</div>}
+                          </td>
+                          <td className="mono" style={{color:d.prodHaendler != null ? "#c9d1d9" : "var(--text-dim)"}}>{d.prodHaendler ?? "–"}</td>
+                          <td className="mono" style={{color:d.haendlerUebergabe != null ? "#c9d1d9" : "var(--text-dim)"}}>{d.haendlerUebergabe ?? "–"}</td>
+                          <td className="mono" style={{color:d.prodUebergabe != null ? "var(--green)" : "var(--text-dim)",fontWeight:d.prodUebergabe != null ? 700 : 400}}>{d.prodUebergabe ?? "–"}</td>
+                          <td>
+                            {myBadge ? (
+                              <span style={{fontSize:10,padding:"2px 7px",borderRadius:10,border:`1px solid ${myBadge.color}`,color:myBadge.color,fontFamily:"'Space Mono',monospace",whiteSpace:"nowrap"}}>{myBadge.my}</span>
+                            ) : <span style={{color:"var(--text-dim)"}}>–</span>}
+                          </td>
+                          <td className="hide-m" style={{fontSize:11,color:"var(--text-dim)",fontStyle:"italic"}}>{d.note ?? ""}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
 
             <div style={{marginTop:16,fontSize:11,color:"var(--text-dim)",textAlign:"center",paddingBottom:32,lineHeight:1.8}}>
               Basierend auf realen Erfahrungen der Elroq-Community · Stand April 2026 · Alle Angaben ohne Gewähr<br/>
