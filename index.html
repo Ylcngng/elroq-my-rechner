@@ -35,6 +35,12 @@
       { id:13, user:"User 13", quelle:"elroq-forum.de T.337 p4",  modell:"Elroq 50 Tour", bestellt:"06.01.25", produziert:new Date(2025,3,4),  haendler:new Date(2025,3,16), uebergabe:new Date(2025,4,6),  prodHaendler:12, haendlerUebergabe:20, prodUebergabe:32 },
       { id:14, user:"User 14", quelle:"elroq-forum.de T.337 p3",  modell:"Elroq 85",      bestellt:"09.01.25", produziert:null,               haendler:new Date(2025,3,2),  uebergabe:new Date(2025,3,4),  prodHaendler:null, haendlerUebergabe:2, prodUebergabe:null, note:"Selbstzulassung (Ausreißer)" },
       { id:15, user:"User 15", quelle:"elroq-forum.de (aktuell)", modell:"Unbekannt",     bestellt:"21.11.25", produziert:new Date(2026,3,10), haendler:new Date(2026,3,22), uebergabe:null,                prodHaendler:12, haendlerUebergabe:null, prodUebergabe:null, note:"Händlerfenster 16.–29.04.2026" },
+      { id:16, user:"User 16", quelle:"elroq-forum.de",           modell:"Elroq 85",      bestellt:"26.05.25", produziert:new Date(2025,9,16),  haendler:new Date(2025,9,29),  uebergabe:new Date(2025,10,8),  prodHaendler:13, haendlerUebergabe:10, prodUebergabe:23 },
+      { id:17, user:"User 17", quelle:"elroq-forum.de",           modell:"85 Sportline",  bestellt:"–",        produziert:new Date(2025,7,29),  haendler:new Date(2025,8,5),   uebergabe:new Date(2025,8,16),  prodHaendler:7,  haendlerUebergabe:11, prodUebergabe:18 },
+      { id:18, user:"User 18", quelle:"elroq-forum.de",           modell:"Elroq RS",      bestellt:"22.08.25", produziert:new Date(2026,1,20),  haendler:null,                 uebergabe:new Date(2026,2,18),  prodHaendler:null, haendlerUebergabe:null, prodUebergabe:26, note:"Kein Händlerdatum bekannt" },
+      { id:19, user:"User 19", quelle:"elroq-forum.de",           modell:"Elroq",         bestellt:"20.10.25", produziert:new Date(2026,2,26),  haendler:new Date(2026,3,1),   uebergabe:new Date(2026,3,17),  prodHaendler:6,  haendlerUebergabe:16, prodUebergabe:22 },
+      { id:20, user:"User 20", quelle:"elroq-forum.de",           modell:"Elroq 85",      bestellt:"23.10.25", produziert:new Date(2026,3,6),   haendler:new Date(2026,3,20),  uebergabe:new Date(2026,4,4),   prodHaendler:14, haendlerUebergabe:14, prodUebergabe:28 },
+      { id:21, user:"User 21", quelle:"elroq-forum.de",           modell:"Elroq RS",      bestellt:"–",        produziert:new Date(2026,3,25),  haendler:null,                 uebergabe:null,                 prodHaendler:null, haendlerUebergabe:null, prodUebergabe:null, note:"Händlerfenster 13.–26.05.2026" },
     ];
 
     const avg = (arr) => {
@@ -86,7 +92,7 @@
         return { base, haendler: addDays(base, -huOffset), produziert: prodBeginn, prodEnde: addDays(prodBeginn, 2) };
       })();
 
-      const badge = result ? getMyBadge(result.prodEnde) : null;
+      const badge = result ? getMyBadge(result.produziert) : null;
 
       return (
         <div style={{fontFamily:"'DM Sans','Segoe UI',sans-serif",background:"#0d1117",minHeight:"100vh",color:"#e6edf3"}}>
@@ -96,11 +102,11 @@
             .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;}
             .stat-val{font-family:'Space Mono',monospace;font-size:26px;color:var(--green);font-weight:700;}
             .stat-label{font-size:11px;color:var(--text-dim);margin-top:4px;text-transform:uppercase;letter-spacing:.05em;}
-            input[type=date]{-webkit-appearance:none;appearance:none;display:block;width:100%;background:#0d1117;border:1px solid var(--border);color:#e6edf3;border-radius:8px;padding:12px 16px;font-size:16px;font-family:inherit;outline:none;min-width:0;}
+            input[type=date]{-webkit-appearance:none;appearance:none;display:block;width:100%;background:#0d1117;border:1px solid var(--border);color:#e6edf3;border-radius:8px;padding:12px 16px;font-size:16px;font-family:inherit;outline:none;min-width:0;color-scheme:light;}
             input[type=date]:focus{border-color:var(--green);}
             input[type=date]::-webkit-calendar-picker-indicator{filter:invert(1);cursor:pointer;}
             input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:4px;background:var(--border);border-radius:2px;outline:none;display:block;}
-            input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;background:var(--green);border-radius:50%;cursor:pointer;}
+            input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;background:var(--green);border-radius:50%;cursor:pointer;box-shadow:0 0 0 3px rgba(74,225,138,0.15);}
             .result-box{background:linear-gradient(135deg,#0f2d1c,#1a3a28);border:1px solid var(--green-dim);border-radius:12px;padding:18px;margin-top:16px;}
             .r-step{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--green-dim);}
             .r-step:last-child{border-bottom:none;}
@@ -228,25 +234,29 @@
               )}
 
               {/* Schieberegler */}
-              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:16,marginBottom:8}}>
-                <div>
-                  <div style={{display:"flex",justifyContent:"space-between",fontSize:12,color:"var(--text-dim)",marginBottom:8}}>
+              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:8}}>
+                <div style={{background:"var(--card)",border:"1px solid var(--border)",borderRadius:10,padding:"14px 16px"}}>
+                  <div style={{display:"flex",justifyContent:"space-between",fontSize:12,color:"var(--text-dim)",marginBottom:10}}>
                     <span>Produktion → Händler</span>
-                    <span style={{color:"var(--green)",fontFamily:"'Space Mono',monospace"}}>{phOffset} Tage</span>
+                    <span style={{color:"var(--green)",fontFamily:"'Space Mono',monospace",fontWeight:700}}>{phOffset} Tage</span>
                   </div>
-                  <input type="range" min={5} max={45} value={phOffset} onChange={e => setPhOffset(Number(e.target.value))} />
-                  <div style={{display:"flex",justifyContent:"space-between",fontSize:11,color:"var(--text-dim)",marginTop:4}}>
-                    <span>5 Tage</span><span>Ø {avgPH}</span><span>45 Tage</span>
+                  <div style={{padding:"8px 0"}}>
+                    <input type="range" min={5} max={45} value={phOffset} onChange={e => setPhOffset(Number(e.target.value))} />
+                  </div>
+                  <div style={{display:"flex",justifyContent:"space-between",fontSize:10,color:"var(--text-dim)",marginTop:6}}>
+                    <span>5d</span><span style={{color:"var(--accent)"}}>Ø {avgPH}d</span><span>45d</span>
                   </div>
                 </div>
-                <div>
-                  <div style={{display:"flex",justifyContent:"space-between",fontSize:12,color:"var(--text-dim)",marginBottom:8}}>
+                <div style={{background:"var(--card)",border:"1px solid var(--border)",borderRadius:10,padding:"14px 16px"}}>
+                  <div style={{display:"flex",justifyContent:"space-between",fontSize:12,color:"var(--text-dim)",marginBottom:10}}>
                     <span>Händler → Übergabe</span>
-                    <span style={{color:"var(--green)",fontFamily:"'Space Mono',monospace"}}>{huOffset} Tage</span>
+                    <span style={{color:"var(--green)",fontFamily:"'Space Mono',monospace",fontWeight:700}}>{huOffset} Tage</span>
                   </div>
-                  <input type="range" min={2} max={25} value={huOffset} onChange={e => setHuOffset(Number(e.target.value))} />
-                  <div style={{display:"flex",justifyContent:"space-between",fontSize:11,color:"var(--text-dim)",marginTop:4}}>
-                    <span>2 Tage</span><span>Ø {avgHU}</span><span>25 Tage</span>
+                  <div style={{padding:"8px 0"}}>
+                    <input type="range" min={2} max={25} value={huOffset} onChange={e => setHuOffset(Number(e.target.value))} />
+                  </div>
+                  <div style={{display:"flex",justifyContent:"space-between",fontSize:10,color:"var(--text-dim)",marginTop:6}}>
+                    <span>2d</span><span style={{color:"var(--accent)"}}>Ø {avgHU}d</span><span>25d</span>
                   </div>
                 </div>
               </div>
