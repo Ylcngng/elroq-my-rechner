@@ -88,8 +88,9 @@
         if (!inputDate) return null;
         const base = new Date(inputDate);
         if (isNaN(base)) return null;
-        const prodBeginn = addDays(base, -phOffset-huOffset);
-        return { base, haendler: addDays(base, -huOffset), produziert: prodBeginn, prodEnde: addDays(prodBeginn, 2) };
+        const prodEnde = addDays(base, -phOffset-huOffset);
+        const prodBeginn = addDays(prodEnde, -2);
+        return { base, haendler: addDays(base, -huOffset), produziert: prodBeginn, prodEnde };
       })();
 
       const badge = result ? getMyBadge(result.produziert) : null;
@@ -150,7 +151,7 @@
               {[
                 {val:`${avgPH} Tage`, label:"Ø Produktion → Händler",      sub:"≈ 2–3 Wochen"},
                 {val:`${avgHU} Tage`, label:"Ø Händler → Übergabe",        sub:"Zulassung & Aufbereitung"},
-                {val:`${avgPH+avgHU} Tage`, label:"Ø Produktionsbeginn → Übergabe", sub:"≈ 4 Wochen"},
+                {val:`${avgPH+avgHU+2} Tage`, label:"Ø Produktionsbeginn → Übergabe", sub:"≈ 4 Wochen"},
               ].map((s,i) => (
                 <div key={i} className="card" style={{textAlign:"center",minWidth:0,display:"flex",flexDirection:"column",justifyContent:"center"}}>
                   <div className="stat-val" style={{fontSize:"clamp(15px,3.5vw,26px)"}}>{s.val}</div>
@@ -198,7 +199,7 @@
                   <div className="r-step">
                     <div>
                       <div className="r-label">🏭 Produktionsbeginn (rückgerechnet)</div>
-                      <div style={{fontSize:11,color:"var(--text-dim)",marginTop:2}}>Übergabe minus {phOffset+huOffset} Tage · inkl. 2 Tage Produktion</div>
+                      <div style={{fontSize:11,color:"var(--text-dim)",marginTop:2}}>Übergabe minus {phOffset+huOffset+2} Tage · inkl. 2 Tage Produktion</div>
                     </div>
                     <div style={{textAlign:"right"}}>
                       <div className="r-date">{formatDE(result.produziert)}</div>
@@ -228,7 +229,7 @@
                     </div>
                   </div>
                   <div style={{marginTop:12,padding:"8px 12px",background:"rgba(74,225,138,0.06)",borderRadius:8,fontSize:12,color:"var(--text-dim)"}}>
-                    Gesamt Produktionsbeginn → Übergabe: <strong style={{color:"var(--green)",fontFamily:"'Space Mono',monospace"}}>{phOffset+huOffset} Tage</strong>
+                    Gesamt Produktionsbeginn → Übergabe: <strong style={{color:"var(--green)",fontFamily:"'Space Mono',monospace"}}>{phOffset+huOffset+2} Tage</strong>
                   </div>
                 </div>
               )}
